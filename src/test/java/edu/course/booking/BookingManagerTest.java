@@ -77,4 +77,33 @@ class BookingManagerTest {
                 notificationService
         );
     }
+    @Test
+void zeroTicketQuantity() {
+
+    // Arrange
+    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+    IEventRepository eventRepository = mock(IEventRepository.class);
+    INotificationService notificationService =
+            mock(INotificationService.class);
+
+    BookingManager manager = new BookingManager(
+            paymentGateway,
+            eventRepository,
+            notificationService
+    );
+
+    BookingRequest request = new BookingRequest(
+            "C101", "E20", 0, 2500
+    );
+
+    // Act & Assert
+    assertThrows(IllegalArgumentException.class,
+            () -> manager.book(request));
+
+    verifyNoInteractions(
+            paymentGateway,
+            eventRepository,
+            notificationService
+    );
+}
 }
