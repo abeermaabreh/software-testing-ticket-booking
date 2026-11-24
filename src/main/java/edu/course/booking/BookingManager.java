@@ -17,6 +17,10 @@ public class BookingManager {
     }
 
     public String book(BookingRequest request) {
+        if (request.getTicketQuantity() < 1 ||
+        request.getTicketQuantity() > 5) {
+    throw new IllegalArgumentException("Invalid ticket quantity");
+}
        eventRepository.isSoldOut(request.getEventId());
 
 int totalAmountInCents = calculateTotalAmount(request);
