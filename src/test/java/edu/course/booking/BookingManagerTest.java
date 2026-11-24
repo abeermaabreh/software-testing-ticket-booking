@@ -106,4 +106,33 @@ void zeroTicketQuantity() {
             notificationService
     );
 }
+@Test
+void invalidCustomerId() {
+
+    // Arrange
+    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+    IEventRepository eventRepository = mock(IEventRepository.class);
+    INotificationService notificationService =
+            mock(INotificationService.class);
+
+    BookingManager manager = new BookingManager(
+            paymentGateway,
+            eventRepository,
+            notificationService
+    );
+
+    BookingRequest request = new BookingRequest(
+            "", "E20", 3, 2500
+    );
+
+    // Act & Assert
+    assertThrows(IllegalArgumentException.class,
+            () -> manager.book(request));
+
+    verifyNoInteractions(
+            paymentGateway,
+            eventRepository,
+            notificationService
+    );
+}
 }

@@ -18,6 +18,10 @@ public class BookingManager {
 
     public String book(BookingRequest request) {
      validateTicketQuantity(request); 
+     if (request.getCustomerId() == null ||
+        request.getCustomerId().isBlank()) {
+    throw new IllegalArgumentException("Invalid customer ID");
+}
 
        eventRepository.isSoldOut(request.getEventId());
 
