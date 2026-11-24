@@ -18,15 +18,19 @@ public class BookingManager {
 
     public String book(BookingRequest request) {
      validateTicketQuantity(request); 
+     validateTicketPrice(request);
      if (request.getCustomerId() == null ||
-        request.getCustomerId().isBlank()) {
+        request.getCustomerId().isBlank()) 
+        {
     throw new IllegalArgumentException("Invalid customer ID");
 }
 if (request.getEventId() == null ||
         request.getEventId().isBlank()) {
     throw new IllegalArgumentException("Invalid event ID");
 }
-       eventRepository.isSoldOut(request.getEventId());
+       if (eventRepository.isSoldOut(request.getEventId())) {
+    throw new IllegalArgumentException("Event is sold out");
+}
 
 int totalAmountInCents = calculateTotalAmount(request);
 
@@ -43,10 +47,18 @@ return transactionId;
     return request.getTicketQuantity() *
             request.getPricePerTicketInCents();
    }
-   private void validateTicketQuantity(BookingRequest request) {
+  private void validateTicketQuantity(BookingRequest request) {
     if (request.getTicketQuantity() < 1 ||
             request.getTicketQuantity() > 5) {
         throw new IllegalArgumentException("Invalid ticket quantity");
     }
 }
+
+private void validateTicketPrice(BookingRequest request) {
+    if (request.getPricePerTicketInCents() <= 0) {
+        throw new IllegalArgumentException("Invalid ticket price");
+    }
 }
+}
+
+

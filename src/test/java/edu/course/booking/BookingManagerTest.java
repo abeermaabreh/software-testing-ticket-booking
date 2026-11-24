@@ -164,4 +164,99 @@ void invalidEventId() {
             notificationService
     );
 }
+@Test
+void invalidTicketPrice() {
+
+    // Arrange
+    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+    IEventRepository eventRepository = mock(IEventRepository.class);
+    INotificationService notificationService =
+            mock(INotificationService.class);
+
+    BookingManager manager = new BookingManager(
+            paymentGateway,
+            eventRepository,
+            notificationService
+    );
+
+    BookingRequest request = new BookingRequest(
+            "C101", "E20", 3, 0
+    );
+
+    // Act & Assert
+    assertThrows(IllegalArgumentException.class,
+            () -> manager.book(request));
+
+    verifyNoInteractions(
+            paymentGateway,
+            eventRepository,
+            notificationService
+    );
+}
+@Test
+void soldOutEvent() {
+
+    // Arrange
+    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+    IEventRepository eventRepository = mock(IEventRepository.class);
+    INotificationService notificationService =
+            mock(INotificationService.class);
+
+    BookingManager manager = new BookingManager(
+            paymentGateway,
+            eventRepository,
+            notificationService
+    );
+
+    BookingRequest request = new BookingRequest(
+            "C205", "E35", 2, 1800
+    );
+
+    when(eventRepository.isSoldOut("E35")).thenReturn(true);
+
+    // Act & Assert
+    assertThrows(IllegalArgumentException.class,
+            () -> manager.book(request));
+
+    verify(eventRepository, times(1)).isSoldOut("E35");
+    verify(eventRepository, never()).saveBooking(any());
+
+    verifyNoInteractions(paymentGateway, notificationService);
+}
+@Test
+void failedPayment() {
+
+    // Arrange
+    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+    IEventRepository eventRepository = mock(IEventRepository.class);
+    INotificationService notificationService =
+            mock(INotificationService.class);
+
+    BookingManager manager = new BookingManager(
+            paymentGateway,
+            eventRepository,
+            notificationService
+    );
+
+    BookingRequest request = new BookingRequest(
+            "C310", "E42", 2, 2200
+    );
+
+    when(eventRepository.isSoldOut("E42")).thenReturn(false);
+
+    when(paymentGateway.processPayment(4400))
+            .thenThrow(new PaymentFailedException("Payment failed"));
+
+    // Act & Assert
+    assertThrows(PaymentFailedException.class,
+            () -> manager.book(request));
+
+    verify(eventRepository, times(1)).isSoldOut("E42");
+
+    verify(paymentGateway, times(1)).processPayment(4400);
+
+    verify(eventRepository, never()).saveBooking(any());
+
+    verifyNoInteractions(notificationService);
+}
 }
