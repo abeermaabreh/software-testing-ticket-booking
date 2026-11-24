@@ -22,7 +22,10 @@ public class BookingManager {
         request.getCustomerId().isBlank()) {
     throw new IllegalArgumentException("Invalid customer ID");
 }
-
+if (request.getEventId() == null ||
+        request.getEventId().isBlank()) {
+    throw new IllegalArgumentException("Invalid event ID");
+}
        eventRepository.isSoldOut(request.getEventId());
 
 int totalAmountInCents = calculateTotalAmount(request);
