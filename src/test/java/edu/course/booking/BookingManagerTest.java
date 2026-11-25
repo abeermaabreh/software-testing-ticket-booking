@@ -259,4 +259,30 @@ void failedPayment() {
 
     verifyNoInteractions(notificationService);
 }
+
+@Test
+    void nullBookingRequest() {
+
+        
+        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+        IEventRepository eventRepository = mock(IEventRepository.class);
+        INotificationService notificationService =
+                mock(INotificationService.class);
+
+        BookingManager manager = new BookingManager(
+                paymentGateway,
+                eventRepository,
+                notificationService
+        );
+
+        
+        assertThrows(IllegalArgumentException.class,
+                () -> manager.book(null));
+
+        verifyNoInteractions(
+                paymentGateway,
+                eventRepository,
+                notificationService
+        );
+    }
 }
