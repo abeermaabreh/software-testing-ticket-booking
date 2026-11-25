@@ -339,4 +339,60 @@ void failedPayment() {
                 notificationService
         );
     }
+
+    @Test
+    void minimumValidTicketQuantity() {
+        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+        IEventRepository eventRepository = mock(IEventRepository.class);
+        INotificationService notificationService =
+                mock(INotificationService.class);
+
+        BookingManager manager = new BookingManager(
+                paymentGateway,
+                eventRepository,
+                notificationService
+        );
+
+        BookingRequest request = new BookingRequest(
+                "C101", "E20", 1, 2500
+        );
+
+        when(eventRepository.isSoldOut("E20")).thenReturn(false);
+        when(paymentGateway.processPayment(2500)).thenReturn("TX-MIN-001");
+
+        String result = manager.book(request);
+
+        assertEquals("TX-MIN-001", result);
+        verify(paymentGateway).processPayment(2500);
+        verify(eventRepository).saveBooking(request);
+        verify(notificationService).sendConfirmation(request, "TX-MIN-001");
+    }
+
+    @Test
+    void maximumValidTicketQuantity() {
+        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+        IEventRepository eventRepository = mock(IEventRepository.class);
+        INotificationService notificationService =
+                mock(INotificationService.class);
+
+        BookingManager manager = new BookingManager(
+                paymentGateway,
+                eventRepository,
+                notificationService
+        );
+
+        BookingRequest request = new BookingRequest(
+                "C101", "E20", 5, 2500
+        );
+
+        when(eventRepository.isSoldOut("E20")).thenReturn(false);
+        when(paymentGateway.processPayment(12500)).thenReturn("TX-MAX-005");
+
+        String result = manager.book(request);
+
+        assertEquals("TX-MAX-005", result);
+        verify(paymentGateway).processPayment(12500);
+        verify(eventRepository).saveBooking(request);
+        verify(notificationService).sendConfirmation(request, "TX-MAX-005");
+    }
 }
