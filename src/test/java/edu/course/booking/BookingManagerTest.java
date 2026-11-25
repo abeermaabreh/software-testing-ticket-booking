@@ -285,4 +285,31 @@ void failedPayment() {
                 notificationService
         );
     }
+
+    @Test
+    void negativeTicketQuantity() {
+        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+        IEventRepository eventRepository = mock(IEventRepository.class);
+        INotificationService notificationService =
+                mock(INotificationService.class);
+
+        BookingManager manager = new BookingManager(
+                paymentGateway,
+                eventRepository,
+                notificationService
+        );
+
+        BookingRequest request = new BookingRequest(
+                "C101", "E20", -1, 2500
+        );
+
+        assertThrows(IllegalArgumentException.class,
+                () -> manager.book(request));
+
+        verifyNoInteractions(
+                paymentGateway,
+                eventRepository,
+                notificationService
+        );
+    }
 }
