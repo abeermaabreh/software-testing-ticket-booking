@@ -17,6 +17,9 @@ public class BookingManager {
     }
 
     public String book(BookingRequest request) {
+        if (request == null) {
+    throw new IllegalArgumentException("Booking request must not be null");
+}
      validateTicketQuantity(request); 
      validateTicketPrice(request);
      if (request.getCustomerId() == null ||
