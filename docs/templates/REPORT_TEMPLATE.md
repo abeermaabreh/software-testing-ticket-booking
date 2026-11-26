@@ -2,63 +2,63 @@
 
 ## Cover Information
 
-- Course:
-- Milestone:
-- Group number:
+- Course: " Software Testing "
+- Milestone: Milestone 1
+- Group number: 2
 - Student names and IDs:
-- Repository URL:
-- Final commit hash:
+ 1. Dana Mohammad Asad (2332838)
+ 2. Abeer Alaa Maabreh (2338150)
+- Repository URL: https://github.com/abeermaabreh/software-testing-ticket-booking
+- Final commit hash: f8dadabb0d659496a9fad5498df011de06177d6b
 
 ## 1. System and Test Scope
 
-Briefly describe the implemented scope and what is intentionally excluded.
+The implemented scope covers unit testing `BookingManager` for ticket booking validation, total charge calculation, event availability checks, payment gateway invocation, booking persistence, and confirmation notifications, including boundary value tests (`1` and `5` tickets) and constructor `null`-dependency checks (`IPaymentGateway`, `IEventRepository`, `INotificationService`). Real external services (`IPaymentGateway`, `IEventRepository`, `INotificationService`), full end-to-end integration/database persistence, and Milestone 2 input-space / pair-wise combinatorial test suites are intentionally out of scope for Milestone 1.
 
 ## 2. Milestone 1: Design and Testability
 
-Briefly describe the design and explain how constructor dependency injection supports testing.
+`BookingManager` separates booking orchestration and validation rules from external side effects by depending on `IPaymentGateway`, `IEventRepository`, and `INotificationService` interfaces rather than concrete implementations. Constructor dependency injection makes the class straightforward to test in isolation: tests can pass Mockito mocks (or `null` when testing constructor guard clauses) and use JUnit 5 `@BeforeEach` to reset fresh mocks and a clean `BookingManager` instance before each test without hitting real networks, databases, or notification providers.
 
 ## 3. Milestone 1: TDD Evidence
 
-For at least two behaviors, record the relevant commit hashes and briefly explain the Red, Green, and Refactor stages.
-
 ### Behavior 1
 
-- Red commit:
-- Green commit:
-- Refactor commit, if applicable:
-- Short explanation:
+- Red commit: a074127d9cb3ce493f1e6e799fea80db2acbedcf
+- Green commit: c45685d3d46b3925cc92319c5eadf42ba907f193
+- Refactor commit, if applicable: f8dadab
+- Short explanation: Added a test expecting rejection of a `null` `BookingRequest` (Red), implemented the `null` booking request check so it passes (Green), and extracted shared mock setup into `@BeforeEach` (Refactor).
 
 ### Behavior 2
 
-- Red commit:
-- Green commit:
-- Refactor commit, if applicable:
-- Short explanation:
+- Red commit: 853d5cc
+- Green commit: 7d42b16
+- Refactor commit, if applicable: f8dadab
+- Short explanation: Added a failing constructor test for a `null` payment gateway (Red), added constructor `null` validation so it passes (Green), and cleaned up repeated mock initialization in `@BeforeEach` (Refactor).
 
 ## 4. Limitation of Mocking
 
-Provide one concise, technically accurate limitation or risk.
+Mocked dependencies verify interactions and return canned responses rather than real implementations, so tests can pass even when a mock's stubbed behavior or method signature drifts from real production behavior or integration edge cases.
 
 ## 5. Milestone 2: Input Space Model
 
-Identify the characteristics, blocks, and boundaries. Show that the blocks are disjoint and complete.
+*Milestone 2 — to be completed in Milestone 2.*
 
 ## 6. Constraints and Infeasible Combinations
 
-Document the required constraints and explain how invalid inputs are handled.
+*Milestone 2 — to be completed in Milestone 2.*
 
 ## 7. Pair-Wise Test Set
 
-Present the final feasible rows and briefly justify pair coverage and removed redundancy.
+*Milestone 2 — to be completed in Milestone 2.*
 
 ## 8. Limitation of Pair-Wise Testing
 
-Provide one concise, technically accurate limitation.
+*Milestone 2 — to be completed in Milestone 2.*
 
 ## 9. Team Contribution Matrix
 
-Insert or copy the completed contribution matrix.
+*See completed `TEAM_CONTRIBUTION_MATRIX.md`.*
 
 ## Appendix A: AI Use Log
 
-Include this appendix only when material AI use is declared. Use the provided AI log template.
+*See completed `AI_USE_LOG.md`.*
