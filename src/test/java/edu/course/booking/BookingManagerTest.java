@@ -5,23 +5,28 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
 
 class BookingManagerTest {
+    private IPaymentGateway paymentGateway;
+    private IEventRepository eventRepository;
+    private INotificationService notificationService;
+    private BookingManager manager;
 
-    @Test
-    void successfulBooking() {
-
-        // Arrange
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        IEventRepository eventRepository = mock(IEventRepository.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
-        BookingManager manager = new BookingManager(
+    @BeforeEach
+    void setUp() {
+        paymentGateway = mock(IPaymentGateway.class);
+        eventRepository = mock(IEventRepository.class);
+        notificationService = mock(INotificationService.class);
+        manager = new BookingManager(
                 paymentGateway,
                 eventRepository,
                 notificationService
         );
+    }
+
+    @Test
+    void successfulBooking() {
 
         BookingRequest request = new BookingRequest(
                 "C101", "E20", 3, 2500
@@ -51,18 +56,6 @@ class BookingManagerTest {
        @Test
     void invalidTicketQuantity() {
 
-        // Arrange
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        IEventRepository eventRepository = mock(IEventRepository.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
-        BookingManager manager = new BookingManager(
-                paymentGateway,
-                eventRepository,
-                notificationService
-        );
-
         BookingRequest request = new BookingRequest(
                 "C101", "E20", 6, 2500
         );
@@ -79,18 +72,6 @@ class BookingManagerTest {
     }
     @Test
 void zeroTicketQuantity() {
-
-    // Arrange
-    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-    IEventRepository eventRepository = mock(IEventRepository.class);
-    INotificationService notificationService =
-            mock(INotificationService.class);
-
-    BookingManager manager = new BookingManager(
-            paymentGateway,
-            eventRepository,
-            notificationService
-    );
 
     BookingRequest request = new BookingRequest(
             "C101", "E20", 0, 2500
@@ -109,18 +90,6 @@ void zeroTicketQuantity() {
 @Test
 void invalidCustomerId() {
 
-    // Arrange
-    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-    IEventRepository eventRepository = mock(IEventRepository.class);
-    INotificationService notificationService =
-            mock(INotificationService.class);
-
-    BookingManager manager = new BookingManager(
-            paymentGateway,
-            eventRepository,
-            notificationService
-    );
-
     BookingRequest request = new BookingRequest(
             "", "E20", 3, 2500
     );
@@ -137,18 +106,6 @@ void invalidCustomerId() {
 }
 @Test
 void invalidEventId() {
-
-    // Arrange
-    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-    IEventRepository eventRepository = mock(IEventRepository.class);
-    INotificationService notificationService =
-            mock(INotificationService.class);
-
-    BookingManager manager = new BookingManager(
-            paymentGateway,
-            eventRepository,
-            notificationService
-    );
 
     BookingRequest request = new BookingRequest(
             "C101", "", 3, 2500
@@ -167,18 +124,6 @@ void invalidEventId() {
 @Test
 void invalidTicketPrice() {
 
-    // Arrange
-    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-    IEventRepository eventRepository = mock(IEventRepository.class);
-    INotificationService notificationService =
-            mock(INotificationService.class);
-
-    BookingManager manager = new BookingManager(
-            paymentGateway,
-            eventRepository,
-            notificationService
-    );
-
     BookingRequest request = new BookingRequest(
             "C101", "E20", 3, 0
     );
@@ -195,18 +140,6 @@ void invalidTicketPrice() {
 }
 @Test
 void soldOutEvent() {
-
-    // Arrange
-    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-    IEventRepository eventRepository = mock(IEventRepository.class);
-    INotificationService notificationService =
-            mock(INotificationService.class);
-
-    BookingManager manager = new BookingManager(
-            paymentGateway,
-            eventRepository,
-            notificationService
-    );
 
     BookingRequest request = new BookingRequest(
             "C205", "E35", 2, 1800
@@ -225,18 +158,6 @@ void soldOutEvent() {
 }
 @Test
 void failedPayment() {
-
-    // Arrange
-    IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-    IEventRepository eventRepository = mock(IEventRepository.class);
-    INotificationService notificationService =
-            mock(INotificationService.class);
-
-    BookingManager manager = new BookingManager(
-            paymentGateway,
-            eventRepository,
-            notificationService
-    );
 
     BookingRequest request = new BookingRequest(
             "C310", "E42", 2, 2200
@@ -262,19 +183,6 @@ void failedPayment() {
 
 @Test
     void nullBookingRequest() {
-
-        
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        IEventRepository eventRepository = mock(IEventRepository.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
-        BookingManager manager = new BookingManager(
-                paymentGateway,
-                eventRepository,
-                notificationService
-        );
-
         
         assertThrows(IllegalArgumentException.class,
                 () -> manager.book(null));
@@ -288,16 +196,6 @@ void failedPayment() {
 
     @Test
     void negativeTicketQuantity() {
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        IEventRepository eventRepository = mock(IEventRepository.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
-        BookingManager manager = new BookingManager(
-                paymentGateway,
-                eventRepository,
-                notificationService
-        );
 
         BookingRequest request = new BookingRequest(
                 "C101", "E20", -1, 2500
@@ -315,16 +213,6 @@ void failedPayment() {
 
     @Test
     void whitespaceCustomerId() {
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        IEventRepository eventRepository = mock(IEventRepository.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
-        BookingManager manager = new BookingManager(
-                paymentGateway,
-                eventRepository,
-                notificationService
-        );
 
         BookingRequest request = new BookingRequest(
                 "   ", "E20", 3, 2500
@@ -342,16 +230,6 @@ void failedPayment() {
 
     @Test
     void minimumValidTicketQuantity() {
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        IEventRepository eventRepository = mock(IEventRepository.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
-        BookingManager manager = new BookingManager(
-                paymentGateway,
-                eventRepository,
-                notificationService
-        );
 
         BookingRequest request = new BookingRequest(
                 "C101", "E20", 1, 2500
@@ -370,16 +248,6 @@ void failedPayment() {
 
     @Test
     void maximumValidTicketQuantity() {
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        IEventRepository eventRepository = mock(IEventRepository.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
-        BookingManager manager = new BookingManager(
-                paymentGateway,
-                eventRepository,
-                notificationService
-        );
 
         BookingRequest request = new BookingRequest(
                 "C101", "E20", 5, 2500
@@ -399,10 +267,6 @@ void failedPayment() {
     @Test
     void nullPaymentGatewayInConstructor() {
 
-        IEventRepository eventRepository = mock(IEventRepository.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
         assertThrows(IllegalArgumentException.class,
                 () -> new BookingManager(
                         null,
@@ -413,10 +277,6 @@ void failedPayment() {
 
     @Test
     void nullEventRepositoryInConstructor() {
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        INotificationService notificationService =
-                mock(INotificationService.class);
-
         assertThrows(IllegalArgumentException.class,
                 () -> new BookingManager(
                         paymentGateway,
@@ -427,8 +287,6 @@ void failedPayment() {
 
     @Test
     void nullNotificationServiceInConstructor() {
-        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
-        IEventRepository eventRepository = mock(IEventRepository.class);
 
         assertThrows(IllegalArgumentException.class,
                 () -> new BookingManager(
