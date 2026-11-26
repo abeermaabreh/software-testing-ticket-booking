@@ -395,4 +395,19 @@ void failedPayment() {
         verify(eventRepository).saveBooking(request);
         verify(notificationService).sendConfirmation(request, "TX-MAX-005");
     }
+
+    @Test
+    void nullPaymentGatewayInConstructor() {
+
+        IEventRepository eventRepository = mock(IEventRepository.class);
+        INotificationService notificationService =
+                mock(INotificationService.class);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new BookingManager(
+                        null,
+                        eventRepository,
+                        notificationService
+                ));
+    }
 }
