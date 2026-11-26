@@ -410,4 +410,31 @@ void failedPayment() {
                         notificationService
                 ));
     }
+
+    @Test
+    void nullEventRepositoryInConstructor() {
+        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+        INotificationService notificationService =
+                mock(INotificationService.class);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new BookingManager(
+                        paymentGateway,
+                        null,
+                        notificationService
+                ));
+    }
+
+    @Test
+    void nullNotificationServiceInConstructor() {
+        IPaymentGateway paymentGateway = mock(IPaymentGateway.class);
+        IEventRepository eventRepository = mock(IEventRepository.class);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new BookingManager(
+                        paymentGateway,
+                        eventRepository,
+                        null
+                ));
+    }
 }
