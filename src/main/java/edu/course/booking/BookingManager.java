@@ -14,9 +14,16 @@ public class BookingManager {
         this.paymentGateway = paymentGateway;
         this.eventRepository = eventRepository;
         this.notificationService = notificationService;
+        
         if (paymentGateway == null) {
     throw new IllegalArgumentException("Payment gateway must not be null");
-}
+        }
+        if (eventRepository == null) {
+            throw new IllegalArgumentException("Event repository must not be null");
+        }
+        if (notificationService == null) {
+            throw new IllegalArgumentException("Notification service must not be null");
+        }
     }
 
     public String book(BookingRequest request) {
