@@ -1,27 +1,26 @@
 SOFTWARE TESTING PROJECT SUBMISSION MANIFEST
 
 Course: Software Testing (2010031410)
-Milestone: [1 or 2]
-Group number:
+Milestone: 1
+Group number: 2
 
 TEAM MEMBERS
-1. Name / Student ID / GitHub username:
-2. Name / Student ID / GitHub username:
-3. Name / Student ID / GitHub username:
+1. Name / Student ID / GitHub username: Dana Mohammad Asad / 2332838 / danaasad734-tech
+2. Name / Student ID / GitHub username: Abeer Alaa Maabreh / 2338150 / abeermaabreh
 
 REPOSITORY
-Repository URL:
-Final commit hash:
-Java version:
-Maven version:
+Repository URL: https://github.com/abeermaabreh/software-testing-ticket-booking
+Final commit hash: [To be updated with final commit hash after Abeer's push]
+Java version: 21.0.13.1 (OpenJDK Runtime Environment Temurin-21.0.13.1+2)
+Maven version: 3.9.9
 Build and test command: mvn clean test
-Test execution result: [PASS / FAIL]
-Number of tests executed:
+Test execution result: PASS
+Number of tests executed: 20
 
 AI USE DECLARATION
 Select one:
 [ ] No generative AI or coding assistant materially influenced assessed work.
-[ ] Generative AI or coding assistants materially influenced assessed work, and the AI Use Log is included in the report appendix.
+[x] Generative AI or coding assistants materially influenced assessed work, and the AI Use Log is included in the report appendix.
 
 We confirm that all AI-assisted output was reviewed and verified, all submitted work can be explained and modified by the team, and no Git history, test results, references, or contribution evidence was fabricated.
 
@@ -29,4 +28,6 @@ CONTRIBUTION DECLARATION
 We confirm that the contribution matrix and repository history accurately represent the work of the team.
 
 Names and signatures or typed confirmations:
-Date:
+- Dana Mohammad Asad (Confirmed)
+- Abeer Alaa Maabreh (Pending confirmation)
+Date: 2026-11-27
