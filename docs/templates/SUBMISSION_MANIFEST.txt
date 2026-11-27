@@ -6,7 +6,7 @@ Group number: 2
 
 TEAM MEMBERS
 1. Name / Student ID / GitHub username: Dana Mohammad Asad / 2332838 / danaasad734-tech
-2. Name / Student ID / GitHub username: Abeer Alaa Maabreh / 2338150 / abeermaabreh
+2. Name / Student ID / GitHub username: Abeer Alaa aldin Maabreh / 2338150 / abeermaabreh
 
 REPOSITORY
 Repository URL: https://github.com/abeermaabreh/software-testing-ticket-booking
