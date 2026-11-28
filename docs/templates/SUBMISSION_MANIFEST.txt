@@ -29,5 +29,5 @@ We confirm that the contribution matrix and repository history accurately repres
 
 Names and signatures or typed confirmations:
 - Dana Mohammad Asad (Confirmed)
-- Abeer Alaa Maabreh (Pending confirmation)
-Date: 2026-11-27
+- Abeer Alaa Maabreh (Confirmed)
+Date: 2026-11-28

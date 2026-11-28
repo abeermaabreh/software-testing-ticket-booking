@@ -2,7 +2,7 @@
 
 ## Cover Information
 
-- Course: " Software Testing "
+- Course: Software Testing (2010031410)
 - Milestone: Milestone 1
 - Group number: 2
 - Student names and IDs:
